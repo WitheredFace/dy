@@ -1,0 +1,268 @@
+Mixed-port: 7890
+allow-lan: true
+bind-address: '*'
+mode: rule
+log-level: info
+ipv6: false
+external-controller: 127.0.0.1:10000
+
+experimental:
+  ignore-resolve-fail: true
+  udp-fallback-match: true
+
+sniffer:
+  enable: true
+  override-destination: true
+  force-dns-mapping: true
+  parse-pure-ip: true
+  sniff:
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: true
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443, 8443]
+
+dns:
+  enable: true
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - "*"
+    - "+.lan"
+    - "+.local"
+  nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  fallback:
+    - tls://8.8.8.8:853
+    - https://1.1.1.1/dns-query
+  proxy-server-nameserver:
+    - 223.5.5.5
+  nameserver-policy:
+    "geosite:cn": [223.5.5.5, 119.29.29.29]
+
+# 节点列表 - 已按地域重排
+proxies:
+  # 纯显示节点
+  - {name: "QQ群：1046598969", type: vless, server: 127.0.0.1, port: 8888, uuid: 00000000-0000-0000-0000-000000000000, tls: false}
+  - {name: "订阅：www.zhouwanx.top/sub", type: vless, server: 127.0.0.1, port: 8889, uuid: 00000000-0000-0000-0000-000000000000, tls: false}
+  
+  # --- 香港区域 ---
+  - {name: "🇭🇰 香港 01 | 三网直连", type: vless, server: 149.104.25.216, port: 56789, uuid: 8b0c144d-5b14-4b44-afe7-3ccd680cb161, network: tcp, udp: true, tls: true, flow: xtls-rprx-vision, servername: addons.mozilla.org, client-fingerprint: firefox, reality-opts: {public-key: kMWsGgCeBlS4EurW9clA994h8INgxafYTclfKbD08mg, short-id: ""}}
+  - {name: "🇭🇰 香港 02 | 三网直连", type: vless, server: 149.104.25.216, port: 56798, uuid: 0eca8d24-3143-45ad-8e59-ad598b1d6c8a, network: tcp, udp: true, tls: true, flow: xtls-rprx-vision, servername: addons.mozilla.org, client-fingerprint: firefox, reality-opts: {public-key: wg8F2dqiinS6m8DhJuOQ2-zAs92mUfhf6nn0yfq6bCM, short-id: ""}, smux: { enabled: false, protocol: 'h2mux', padding: false, max-connections: '8', min-streams: '16', statistic: true, only-tcp: false }, brutal-opts: { enabled: false, up: '1000 Mbps', down: '1000 Mbps' } }
+  - {name: "🇭🇰 香港 03 | 移动优化", type: vless, server: 155.117.224.237, port: 56789, uuid: f5f51a6a-f72b-4b2c-a9d5-04c4207ecce6, network: tcp, udp: true, tls: true, flow: xtls-rprx-vision, servername: addons.mozilla.org, client-fingerprint: firefox, reality-opts: {public-key: gN5qabehXboDhy-SnamWVsHXjjO9gBW-o7_UCy03WS0, short-id: ""}}
+  - {name: "🇭🇰 香港04 | 三网直连", type: vless, server: 45.192.109.25, port: 10013, uuid: 5c98a764-0c01-415f-b071-95c27a033cc8, network: tcp, udp: true, tls: true, flow: xtls-rprx-vision, servername: addons.mozilla.org, client-fingerprint: firefox, reality-opts: {public-key: VwYgD0pt9_ky5m_H2mssh8EFqpZYfE1FNBkdbZMfXC4, short-id: ""}}
+  - {name: "🇭🇰 香港05 | 备用节点", type: vless, server: 116.204.135.152, port: 10003, uuid: 4e3d9d00-0ed2-4bc9-8fd9-f385c9701d62, network: tcp, udp: true, tls: true, flow: xtls-rprx-vision, servername: addons.mozilla.org, client-fingerprint: firefox, reality-opts: {public-key: r5KJMgv5yI0FUVCqVnNg3eaD9-MlNSvl7A4nqJP6wVU, short-id: ""}, smux: { enabled: false, protocol: 'h2mux', padding: false, max-connections: '8', min-streams: '16', statistic: true, only-tcp: false }, brutal-opts: { enabled: false, up: '1000 Mbps', down: '1000 Mbps' } }
+  # 新增香港06 游戏专用节点 原样加入
+  - name: 🇭🇰 香港06 | 游戏专用
+    type: vless
+    server: 35.220.150.20
+    port: 28484
+    uuid: 8d1332cf-efca-4f14-8f70-91b53cfe8be6
+    network: tcp
+    udp: true
+    tls: true
+    flow: xtls-rprx-vision
+    servername: apple.com
+    reality-opts:
+      public-key: 8sImmVQj6t38dy-Tvgd7eq4Z7d-t0Fxk9mZcVxr5ukY
+      short-id: 67fb3ab8
+    client-fingerprint: chrome
+
+  # --- 日本区域 ---
+  - {name: "🇯🇵 日本 01 | 电信优化", type: vless, server: 45.153.246.54, port: 56789, uuid: ef1148f6-6b8e-46b5-879b-0213b6b4dae0, network: tcp, udp: true, tls: true, flow: xtls-rprx-vision, servername: addons.mozilla.org, client-fingerprint: firefox, reality-opts: {public-key: G2-929WYtlnTtHBM-Z9kekJ4yOCT1KOR9eayDME3VDc, short-id: ""}}
+  - {name: "🇯🇵 日本02 | 游戏专用", type: hysteria2, server: 45.143.131.157, port: 21009, up: "200 Mbps", down: "1000 Mbps", password: 75cc014e-8876-4a60-8b24-60cd5fde5f0e, sni: addons.mozilla.org, skip-cert-verify: false, fingerprint: 0B:23:95:44:7B:D3:A4:15:08:86:0C:7D:20:BF:57:92:DA:14:C7:38:B0:7E:63:A1:C9:18:D3:50:CA:7F:DD:E8}
+
+  # --- 新加坡区域 ---
+  - {name: "🇸🇬 AWS新加坡 01 | 三网直连", type: vless, server: 18.140.130.110, port: 442, uuid: 8543395d-a966-406e-a63f-7ebc6b980b34, network: tcp, udp: true, tls: true, flow: xtls-rprx-vision, servername: addons.mozilla.org, client-fingerprint: firefox, reality-opts: {public-key: ItPnICoWlbR-ezq4EQDytFHSi-3IH4L7YTlKXV6RpWw, short-id: ""}}
+  - {name: "🇸🇬 AWS新加坡02 | 游戏专用", type: hysteria2, server: 18.140.130.110, port: 443, up: "200 Mbps", down: "1000 Mbps", password: 8543395d-a966-406e-a63f-7ebc6b980b34, sni: addons.mozilla.org, mtu: 1200, udp: true, skip-cert-verify: false, fingerprint: DC:2D:E9:34:8F:8C:6D:21:6D:B5:E6:B1:9F:55:99:8F:75:A7:9A:16:B6:6D:4F:35:92:48:E0:DA:25:87:88:79}
+
+  # --- 美国区域 ---
+  - {name: "🇺🇸 美国01 | 三网直连", type: vless, server: 107.148.227.65, port: 56789, uuid: d497cf5f-e1a5-472d-acbf-c1602a9b07cd, network: tcp, udp: true, tls: true, flow: xtls-rprx-vision, servername: addons.mozilla.org, client-fingerprint: firefox, reality-opts: {public-key: pAMU1SNNuDm9ZCAe19KBT8LQoIBuymqyArfKOGhlQRI, short-id: ""}, smux: { enabled: false, protocol: 'h2mux', padding: false, max-connections: '8', min-streams: '16', statistic: true, only-tcp: false } }
+
+proxy-groups:
+  - name: 🚀 节点选择
+    type: select
+    proxies:
+      - QQ群：1046598969
+      - 订阅：www.zhouwanx.top/sub
+      - ♻️ 自动选择
+      - 🇭🇰 香港 01 | 三网直连
+      - 🇭🇰 香港 02 | 三网直连
+      - 🇭🇰 香港 03 | 移动优化
+      - 🇭🇰 香港04 | 三网直连
+      - 🇭🇰 香港05 | 备用节点
+      - 🇭🇰 香港06 | 游戏专用
+      - 🇯🇵 日本 01 | 电信优化
+      - 🇯🇵 日本02 | 游戏专用
+      - 🇸🇬 AWS新加坡 01 | 三网直连
+      - 🇸🇬 AWS新加坡02 | 游戏专用
+      - 🇺🇸 美国01 | 三网直连
+      - DIRECT
+
+  - name: 🎮 游戏专用
+    type: select
+    proxies:
+      - 🇭🇰 香港06 | 游戏专用
+      - 🇯🇵 日本02 | 游戏专用
+      - 🇸🇬 AWS新加坡02 | 游戏专用
+
+  - name: ♻️ 自动选择
+    type: url-test
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 30
+    proxies:
+      - 🇭🇰 香港 01 | 三网直连
+      - 🇭🇰 香港 02 | 三网直连
+      - 🇭🇰 香港 03 | 移动优化
+      - 🇭🇰 香港04 | 三网直连
+      - 🇭🇰 香港05 | 备用节点
+      - 🇭🇰 香港06 | 游戏专用
+      - 🇯🇵 日本 01 | 电信优化
+      - 🇯🇵 日本02 | 游戏专用
+      - 🇸🇬 AWS新加坡 01 | 三网直连
+      - 🇸🇬 AWS新加坡02 | 游戏专用
+      - 🇺🇸 美国01 | 三网直连
+
+  - name: ▶️ YouTube
+    type: select
+    proxies:
+      - 🇭🇰 香港05 | 备用节点
+      - 🇯🇵 日本02 | 游戏专用
+      - 🇸🇬 AWS新加坡 01 | 三网直连
+      - 🇺🇸 美国01 | 三网直连
+
+  - name: 📲 电报信息
+    type: select
+    proxies:
+      - 🚀 节点选择
+      - 🇭🇰 香港 01 | 三网直连
+      - 🇭🇰 香港 02 | 三网直连
+      - 🇭🇰 香港 03 | 移动优化
+      - 🇭🇰 香港04 | 三网直连
+      - 🇭🇰 香港05 | 备用节点
+      - 🇯🇵 日本 01 | 电信优化
+      - 🇯🇵 日本02 | 游戏专用
+      - 🇸🇬 AWS新加坡 01 | 三网直连
+      - 🇺🇸 美国01 | 三网直连
+
+  - name: 🤖 ChatGPT
+    type: select
+    proxies:
+      - 🇯🇵 日本 01 | 电信优化
+      - 🇯🇵 日本02 | 游戏专用
+      - 🇸🇬 AWS新加坡 01 | 三网直连
+      - 🇺🇸 美国01 | 三网直连
+    filter: "(?i)^(?!.*(?:🇭🇰|港|hk|hongkong)).*"
+
+  - name: 🛑 全球拦截
+    type: select
+    proxies:
+      - REJECT
+      - DIRECT
+
+  - name: 🐟 漏网之鱼
+    type: select
+    proxies:
+      - 🚀 节点选择
+      - 🇭🇰 香港 01 | 三网直连
+      - 🇭🇰 香港 02 | 三网直连
+      - 🇭🇰 香港 03 | 移动优化
+      - 🇭🇰 香港04 | 三网直连
+      - 🇭🇰 香港05 | 备用节点
+      - 🇭🇰 香港06 | 游戏专用
+      - 🇯🇵 日本 01 | 电信优化
+      - 🇯🇵 日本02 | 游戏专用
+      - 🇸🇬 AWS新加坡 01 | 三网直连
+      - 🇸🇬 AWS新加坡02 | 游戏专用
+      - 🇺🇸 美国01 | 三网直连
+      - DIRECT
+
+rules:
+  - RULE-SET,reject,🛑 全球拦截
+  - RULE-SET,games,🎮 游戏专用
+  - GEOSITE,nintendo,🎮 游戏专用
+  - GEOSITE,playstation,🎮 游戏专用
+  - GEOSITE,xbox,🎮 游戏专用
+  - GEOSITE,steam@cn,DIRECT
+  - GEOSITE,steam,🎮 游戏专用
+  - OR,((DOMAIN,gemini.google.com),(DOMAIN,bard.google.com),(GEOSITE,openai)),🤖 ChatGPT
+  - GEOSITE,youtube,▶️ YouTube
+  - GEOSITE,telegram,📲 电报信息
+  - RULE-SET,applications,DIRECT
+  - RULE-SET,private,DIRECT
+  - RULE-SET,apple,DIRECT
+  - RULE-SET,icloud,DIRECT
+  - RULE-SET,google,🚀 节点选择
+  - RULE-SET,proxy,🚀 节点选择
+  - RULE-SET,direct,DIRECT
+  - RULE-SET,cncidr,DIRECT
+  - GEOIP,LAN,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,🐟 漏网之鱼
+
+rule-providers:
+  games:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/gg-game.txt"
+    path: ./ruleset/games.yaml
+    interval: 86400
+  reject:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/reject.txt"
+    path: ./ruleset/reject.yaml
+    interval: 86400
+  apple:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/apple.txt"
+    path: ./ruleset/apple.yaml
+    interval: 86400
+  icloud:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/icloud.txt"
+    path: ./ruleset/icloud.yaml
+    interval: 86400
+  google:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/google.txt"
+    path: ./ruleset/google.yaml
+    interval: 86400
+  proxy:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/proxy.txt"
+    path: ./ruleset/proxy.yaml
+    interval: 86400
+  direct:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/direct.txt"
+    path: ./ruleset/direct.yaml
+    interval: 86400
+  private:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/private.txt"
+    path: ./ruleset/private.yaml
+    interval: 86400
+  cncidr:
+    type: http
+    behavior: ipcidr
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/cncidr.txt"
+    path: ./ruleset/cncidr.yaml
+    interval: 86400
+  applications:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/applications.txt"
+    path: ./ruleset/applications.yaml
+    interval: 86400
